@@ -23,8 +23,11 @@ Leitlinie: zuerst eine **echte, funktionierende App** mit ehrlichen Messwerten, 
 | Build auf dem Handy | Termux-Skripte | Skripte geschrieben, **auf Termux ungetestet** (PC-Build geprüft) |
 
 ## Phase 2 – Feldtest & Härtung (nächster Schritt, 1–2 Wochen)
-1. Hardwarebericht vom S25 Ultra auswerten und Kamerawahl/Standardkamera anpassen
-2. Prüfen, ob 3×/5× als physische Kameras laufen. Falls Samsung sie sperrt: Weg über logischen Zoom mit Objektivanzeige dokumentieren
+1. ✅ Hardwarebericht vom S25 Ultra ausgewertet (docs/HARDWARE_UND_PHYSIK.md, Abschnitt 5). Standardkamera bevorzugt jetzt die direkt geöffnete Kamera.
+2. **Test A – Laufen die physischen Kameras?** Nacheinander 0→2, 0→5, 0→6, 0→7 wählen und notieren, ob Vorschau und Foto funktionieren oder welche Fehlermeldung erscheint.
+3. **Test B – Fokussiert das Tele näher als gemeldet?** 0→7 (5×) wählen, Autofokus an, Objekt in 30 cm Abstand. Ist es scharf? Welche Fokusdistanz zeigt das HUD?
+4. **Test C – Echter Sensorausschnitt beim Zoom?** Kamera 0, Nahgrenze, ein feines Muster (Geldschein, Lineal) fotografieren, einmal bei Zoom 1,0 und einmal bei 2,0 und 4,0.
+   Den gleichen Bildausschnitt am PC vergleichen: Zeigt 4,0 mehr echte Details als der vierfach vergrößerte 1,0-Ausschnitt, liefert der Treiber Remosaic.
 3. Messgenauigkeit mit Objektmikrometer (z. B. 1 mm / 100 Teilstriche) prüfen: Wiederholbarkeit, Randverzeichnung
 4. Fokusreihe: Settle-Zeiten und Schrittweite je Objektiv ausmessen
 5. Absturz- und Speichertests mit 50-MP-Bildern (Stacking von 30 Bildern, Mosaik 4×4)

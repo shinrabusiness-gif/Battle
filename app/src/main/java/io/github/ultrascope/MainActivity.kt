@@ -212,11 +212,16 @@ class MainActivity : Activity(), CameraController.Listener, OverlayView.Listener
         openCamera(spec)
     }
 
-    /** Standard: Rueckkamera mit der feinsten abgeschaetzten Aufloesung an der Nahgrenze. */
+    /**
+     * Standard: Rueckkamera mit der feinsten abgeschaetzten Aufloesung an der Nahgrenze.
+     * Bei Gleichstand wird die direkt geoeffnete Kamera bevorzugt (RAW moeglich, einfachere
+     * Stream-Kombinationen) statt derselben Optik als physischer Stream einer logischen Kamera.
+     */
     private fun defaultSpec(list: List<CameraSpec>): CameraSpec {
         val back = list.filter { it.facing == CameraMetadata.LENS_FACING_BACK }
         return back.filter { it.closeFocusEstimate() != null }
-            .minByOrNull { it.closeFocusEstimate()!!.resolvableObjectUm }
+            .sortedWith(compareBy<CameraSpec>({ Math.round(it.closeFocusEstimate()!!.resolvableObjectUm) }, { if (it.physicalId == null) 0 else 1 }))
+            .firstOrNull()
             ?: back.firstOrNull() ?: list.first()
     }
 

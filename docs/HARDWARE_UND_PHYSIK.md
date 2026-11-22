@@ -70,11 +70,38 @@ Rauschfilter und Bewegung verschlechtern das Ergebnis real oft um den Faktor 1,5
 - Alle Kameras erreichen an ihrer Nahgrenze nur etwa **1:13 bis 1:22**. Ein echtes Lichtmikroskop beginnt bei 4:1, also etwa 50–80-mal mehr.
 - **Realistisch erreichbar: Strukturen ab etwa 30–70 µm**. Das reicht für Haare (50–100 µm), Papier- und Textilfasern, Leiterbahnen ab etwa 100 µm, Düsenverschleiß bei 3D-Druckern, Insektendetails, Pollen nur als Punkte.
 - **Unmöglich** ohne Vorsatzlinse: Zellen (10–30 µm) im Detail, Bakterien (1–10 µm), Blutzellen.
-- Das **5×-Tele** ist nicht wegen der Auflösung erste Wahl, die ähnelt der von Haupt- und Ultraweitwinkelkamera. Sein Vorteil ist der **Arbeitsabstand von 25 cm**: kein Eigenschatten, gute seitliche Beleuchtung, geringe perspektivische Verzerrung, mehr Schärfentiefe. Das macht Mess- und Mosaikaufnahmen deutlich zuverlässiger.
+- Das **5×-Tele** wäre bei 25 cm Naheinstellgrenze wegen des großen Arbeitsabstands interessant. **Die Messung auf dem Gerät (Abschnitt 5) zeigt aber, dass der Treiber dritten Apps nur 80 cm erlaubt.** Damit entfällt dieser Vorteil.
 - **Digitalzoom fügt keine Information hinzu.** Er vergrößert nur die Vorschau, damit man genauer fokussiert und misst. Der angezeigte Wert „µm/px“ wird kleiner, die Auflösung bleibt gleich.
 - **Focus Stacking** erweitert die Schärfentiefe (z. B. von 5,8 mm auf ein Vielfaches). Die Auflösung steigt dadurch nicht.
 - **Mosaik/Stitching** erhöht die **Gesamtpixelzahl** bei gleichem µm/px. So entstehen große, durchgehend hochaufgelöste Übersichten.
 - Eine **Vorsatzlinse** (z. B. +10 bis +25 dpt Makrolinse, umgedrehtes Handyobjektiv) würde m vervielfachen. Das ist bewusst nicht Teil dieses Prototyps, die App funktioniert damit aber unverändert (einfach neu kalibrieren).
+
+## 5. Gemessen: SM-S938B, Android 17 / API 37
+
+Hardwarebericht der App vom 22.11.2026. Diese Werte **ersetzen** die Annahmen aus Abschnitt 1 und 3.
+
+| Camera2-ID | Objektiv | Brennweite (KB) | Blende | Ausgabe | Naheinstellgrenze (HAL) | m | µm/px | trennbar (theor.) |
+|---|---|---|---|---|---|---|---|---|
+| 0 (logisch, Zoom 0,6–10×) | Haupt + Umschaltung | 6,30 mm (22 mm) | f/1.7 | 4080×3060 | 10 D ≈ 10 cm | 1:15 | 35,7 | ≈ 71 µm |
+| 0→2 / 2 | Ultraweit | 2,20 mm (13 mm) | f/1.9 | 4080×3060 | 20 D ≈ 5 cm | 1:22 | 30,4 | ≈ 61 µm |
+| 0→5 | Haupt | 6,30 mm (22 mm) | f/1.7 | 4080×3060 | 10 D ≈ 10 cm | 1:15 | 35,7 | ≈ 71 µm |
+| 0→6 | Tele 3× | 7,90 mm (61 mm) | f/2.4 | 4000×3000 | 2,5 D ≈ **40 cm** | 1:50 | 55,6 | ≈ 111 µm |
+| 0→7 | Tele 5× | 18,60 mm (113 mm) | f/3.4 | 4080×3060 | 1,25 D ≈ **80 cm** | 1:42 | 58,8 | ≈ 118 µm |
+| 1 / 3 | Front | 3,30 mm | f/2.2 | 12 / 9 MP | 20 cm | 1:60 | 67 | ≈ 134 µm |
+
+Für alle Kameras: `MANUAL_SENSOR`, `MANUAL_POST_PROCESSING`, RAW und manueller Fokus sind **freigegeben**, die Fokusdistanz ist nur `APPROXIMATE`.
+
+**Was das bedeutet**
+1. **Die Teleobjektive sind erreichbar**, als physische Kameras 6 und 7 der logischen Kamera 0. Das ist besser als beim S21 Ultra.
+2. **Ihre Naheinstellgrenze ist für Drittanbieter-Apps aber deutlich größer** als in der Samsung-Kamera-App (40/80 cm statt ≈ 18/25 cm).
+   Vermutlich nutzt Samsung für „Tele-Makro“ eigene Treiberfunktionen. Camera2 begrenzt `LENS_FOCUS_DISTANCE` auf den gemeldeten Bereich.
+   Ob der Autofokus die Linse trotzdem näher fahren kann, lässt sich nur per Test klären (Plan, Phase 2).
+3. **Nur 12 MP pro Objektiv.** Der Treiber meldet schon das gebinnte Pixelarray (Haupt 4080×3060 statt 16320×12240).
+   200 MP bzw. 50 MP sind für dritte Apps hier nicht erreichbar. Die Prognose „18 µm mit 200 MP“ aus Abschnitt 3 entfällt damit.
+4. **Offene Frage:** Bekommt die logische Kamera 0 bei Zoom 2× bis 4× einen echten Sensorausschnitt (Remosaic, Samsungs „optische Qualität“) statt hochskalierter Pixel?
+   Wenn ja, wäre sie mit bis zu ≈ 9 µm/px die feinste Option. Testanleitung im Entwicklungsplan, Phase 2.
+5. **Empfehlung für v0.1:** Ultraweit (ID 2) bei 5 cm für maximale Abtastung, Hauptkamera bei 10 cm für bessere Optik und weniger Verzeichnung.
+   In beiden Fällen gilt real etwa **60–100 µm** als kleinste sicher trennbare Struktur.
 
 ## 4. Kompatibilität des Originalprojekts „telephoto-microscope“ (S24 Ultra)
 

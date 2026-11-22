@@ -26,9 +26,12 @@ Kompatibilitätsanalyse: [docs/HARDWARE_UND_PHYSIK.md](docs/HARDWARE_UND_PHYSIK.
 | Focus Stacking | vervielfacht die Schärfentiefe (sonst 2–8 mm) |
 | Mosaik | große Fläche bei voller Detailauflösung (Gesamtpixel ↑, µm/px gleich) |
 
-Das 5×-Tele (Naheinstellgrenze ≈ 25–30 cm) löst nicht feiner auf als Haupt- oder Ultraweitwinkelkamera.
-Sein Vorteil ist der **große Arbeitsabstand**: kein Eigenschatten, gute Beleuchtung, geringe Verzerrung.
-Die Herleitung mit Quellen steht in [docs/HARDWARE_UND_PHYSIK.md](docs/HARDWARE_UND_PHYSIK.md).
+**Gemessen auf einem SM-S938B (Android 17):** Alle vier Rückobjektive sind als physische Kameras der logischen Kamera 0
+erreichbar (IDs 2 = Ultraweit, 5 = Haupt, 6 = 3×, 7 = 5×). Jede liefert aber nur **12 MP** und manuelle Steuerung.
+Der Treiber meldet für Drittanbieter-Apps als Naheinstellgrenze **40 cm (3×)** und **80 cm (5×)**, nicht die 18/25 cm der Samsung-Kamera-App.
+Damit sind die Teleobjektive für Mikroskopie **unbrauchbar**. Am besten geeignet sind das **Ultraweitwinkel (ID 2, 5 cm)**
+und die **Hauptkamera (ID 0/5, 10 cm)**, beide mit etwa 30–36 µm pro Pixel.
+Die Herleitung mit Quellen steht in [docs/HARDWARE_UND_PHYSIK.md](docs/HARDWARE_UND_PHYSIK.md#5-gemessen-sm-s938b-android-17).
 
 ## Funktionen
 
@@ -88,7 +91,7 @@ Die APK findest du unter **Actions → letzter Lauf → Artifacts → UltraScope
 ## Bedienung – empfohlener Messablauf
 
 1. **HW** antippen → Hardwarebericht prüfen. Bei Bedarf „Versteckte IDs 0–127 prüfen“.
-2. **Kamera** wählen. Für Messungen das 5×-Tele (falls verfügbar), für maximale Vergrößerung auf kleiner Fläche die Haupt- oder Ultraweitwinkelkamera.
+2. **Kamera** wählen: **ID 2 (Ultraweit, 5 cm)** oder **ID 0 (Haupt, 10 cm)**. Die Teleobjektive fokussieren für Drittanbieter-Apps erst ab 40 bzw. 80 cm.
 3. **Nahgrenze** antippen: Der Fokus geht auf den nächsten Punkt und wird fixiert, das ergibt den größten Abbildungsmaßstab. Die Schärfe stellst du ein, indem du **Handy oder Objekt verschiebst**. Am besten mit Stativ oder Buchstapel. Die **Lautstärketasten** lösen mit 2 s Verzögerung aus, das verhindert Verwackeln.
 4. Licht: seitlich mit LED oder Schreibtischlampe, bei Reflexionen diffus.
 5. **Kalibrieren:** Lineal oder Objektmikrometer in die Bildebene legen, gelbe Linie über eine bekannte Länge ziehen, „Kalibrierlinie übernehmen“, Länge in mm eingeben.
