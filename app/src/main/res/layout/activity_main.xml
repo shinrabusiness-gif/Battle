@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="horizontal">
+
+    <!-- ===================== Live-Mikroskopansicht ===================== -->
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <io.github.ultrascope.ui.AspectFrameLayout
+            android:id="@+id/previewFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <TextureView
+                android:id="@+id/texture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <io.github.ultrascope.ui.OverlayView
+                android:id="@+id/overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:id="@+id/busy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/panel_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="18dp"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/busyProgress"
+                    style="@android:style/Widget.Material.ProgressBar.Horizontal"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:max="1000"
+                    android:progressTint="@color/accent" />
+
+                <TextView
+                    android:id="@+id/busyText"
+                    style="@style/Value"
+                    android:layout_width="260dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center" />
+            </LinearLayout>
+        </io.github.ultrascope.ui.AspectFrameLayout>
+    </FrameLayout>
+
+    <!-- ===================== Bedienfeld ===================== -->
+    <ScrollView
+        android:layout_width="380dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/panel_bg"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@color/accent_dim">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <Button android:id="@+id/btnCamera" style="@style/Btn" android:layout_weight="3" android:text="Kamera" />
+                <Button android:id="@+id/btnHardware" style="@style/Btn" android:text="HW" />
+                <Button android:id="@+id/btnSettings" style="@style/Btn" android:text="⚙" />
+            </LinearLayout>
+            <TextView android:id="@+id/txtCamera" style="@style/Value" android:textColor="@color/text_dim" android:textSize="11sp" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:orientation="horizontal">
+                <Button android:id="@+id/modePhoto" style="@style/Btn" android:text="Foto" />
+                <Button android:id="@+id/modeStack" style="@style/Btn" android:text="Stack" />
+                <Button android:id="@+id/modePano" style="@style/Btn" android:text="Mosaik" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnShutter"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/shutter_bg"
+                android:text="AUFNAHME"
+                android:textColor="#FF07090C"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView android:id="@+id/txtStatus" style="@style/Value" android:layout_marginTop="4dp" android:textColor="@color/text_dim" android:textSize="11sp" />
+
+            <!-- Stack-Optionen -->
+            <LinearLayout android:id="@+id/stackBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+                <TextView style="@style/SectionTitle" android:text="FOCUS STACKING" />
+                <TextView android:id="@+id/txtStack" style="@style/Value" />
+                <SeekBar android:id="@+id/seekStackCount" style="@style/Slider" android:max="37" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <Button android:id="@+id/btnStackNear" style="@style/Btn" android:text="Nah = jetzt" />
+                    <Button android:id="@+id/btnStackFar" style="@style/Btn" android:text="Fern = jetzt" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Mosaik-Optionen -->
+            <LinearLayout android:id="@+id/panoBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+                <TextView style="@style/SectionTitle" android:text="MOSAIK / PANORAMA" />
+                <TextView android:id="@+id/txtPano" style="@style/Value" />
+                <Switch android:id="@+id/swPanoSimilarity" style="@style/Switch" android:text="Drehung/Skalierung erlauben (Freihand)" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <Button android:id="@+id/btnPanoStitch" style="@style/Btn" android:text="Zusammensetzen" />
+                    <Button android:id="@+id/btnPanoReset" style="@style/Btn" android:text="Verwerfen" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Zoom -->
+            <TextView style="@style/SectionTitle" android:text="ZOOM" />
+            <TextView android:id="@+id/txtZoom" style="@style/Value" />
+            <SeekBar android:id="@+id/seekZoom" style="@style/Slider" />
+
+            <!-- Fokus -->
+            <TextView style="@style/SectionTitle" android:text="FOKUS" />
+            <Switch android:id="@+id/swManualFocus" style="@style/Switch" android:text="Manueller Fokus" />
+            <TextView android:id="@+id/txtFocus" style="@style/Value" />
+            <SeekBar android:id="@+id/seekFocus" style="@style/Slider" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <Button android:id="@+id/btnFocusMinus" style="@style/Btn" android:text="− fern" />
+                <Button android:id="@+id/btnFocusPlus" style="@style/Btn" android:text="+ nah" />
+                <Button android:id="@+id/btnFocusClosest" style="@style/Btn" android:text="Nahgrenze" />
+                <Button android:id="@+id/btnAfToMf" style="@style/Btn" android:text="AF→MF" />
+            </LinearLayout>
+
+            <!-- Belichtung -->
+            <TextView style="@style/SectionTitle" android:text="BELICHTUNG" />
+            <Switch android:id="@+id/swManualExposure" style="@style/Switch" android:text="Manuelle Belichtung (Zeit + ISO)" />
+            <TextView android:id="@+id/txtExposure" style="@style/Value" />
+            <SeekBar android:id="@+id/seekEv" style="@style/Slider" />
+            <SeekBar android:id="@+id/seekExposure" style="@style/Slider" />
+            <TextView android:id="@+id/txtIso" style="@style/Value" />
+            <SeekBar android:id="@+id/seekIso" style="@style/Slider" />
+
+            <!-- Weissabgleich -->
+            <TextView style="@style/SectionTitle" android:text="WEISSABGLEICH" />
+            <Spinner android:id="@+id/spAwb" android:layout_width="match_parent" android:layout_height="40dp" android:popupBackground="@color/panel_2" />
+            <Switch android:id="@+id/swWbManual" style="@style/Switch" android:text="Aktuellen WB fixieren + feinjustieren" />
+            <TextView android:id="@+id/txtWb" style="@style/Value" />
+            <SeekBar android:id="@+id/seekWbShift" style="@style/Slider" />
+
+            <!-- Licht -->
+            <TextView style="@style/SectionTitle" android:text="LICHT" />
+            <Switch android:id="@+id/swTorch" style="@style/Switch" android:text="LED-Dauerlicht" />
+
+            <!-- Overlays -->
+            <TextView style="@style/SectionTitle" android:text="ANZEIGE" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <CheckBox android:id="@+id/cbGrid" style="@style/Check" android:checked="true" android:text="Gitter" />
+                <CheckBox android:id="@+id/cbCross" style="@style/Check" android:checked="true" android:text="Kreuz" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <CheckBox android:id="@+id/cbScale" style="@style/Check" android:checked="true" android:text="Massstab" />
+                <CheckBox android:id="@+id/cbPeaking" style="@style/Check" android:text="Peaking" />
+            </LinearLayout>
+
+            <!-- Messen -->
+            <TextView style="@style/SectionTitle" android:text="MESSEN" />
+            <TextView android:id="@+id/txtScale" style="@style/Value" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <Button android:id="@+id/btnMeasure" style="@style/Btn" android:text="Messen" />
+                <Button android:id="@+id/btnCalibrate" style="@style/Btn" android:text="Kalibrieren" />
+                <Button android:id="@+id/btnClear" style="@style/Btn" android:text="Loeschen" />
+            </LinearLayout>
+            <Button android:id="@+id/btnCalApply" style="@style/Btn" android:layout_width="match_parent" android:layout_weight="0" android:enabled="false" android:text="Kalibrierlinie uebernehmen …" />
+            <Button android:id="@+id/btnCalReset" style="@style/Btn" android:layout_width="match_parent" android:layout_weight="0" android:text="Kalibrierungen dieser Kamera loeschen" />
+
+            <View android:layout_width="match_parent" android:layout_height="24dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

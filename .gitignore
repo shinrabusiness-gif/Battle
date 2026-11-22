@@ -1,1 +1,14 @@
-y
+Y
+# Gradle / Android
+.gradle/
+build/
+app/build/
+local.properties
+*.apk
+*.aab
+*.keystore
+!debug.keystore
+.idea/
+*.iml
+.DS_Store
+captures/
